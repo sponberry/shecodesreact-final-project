@@ -1,7 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand:wght@300;400;700&display=swap');
 
-.App {
-  text-align: center;
-  font-family: 'Quicksand', 'Trebuchet MS', sans-serif;
+.cityName {
+    font-family: 'Pacifico', cursive;
 }
 
+p {
+    font-family: 'Quicksand', 'Trebuchet MS', sans-serif;
+}
