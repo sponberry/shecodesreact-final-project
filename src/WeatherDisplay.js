@@ -1,7 +1,31 @@
 import React from "react";
 import "./Weather.css";
+import ReactAnimatedWeather from "react-animated-weather";
 
 export default function WeatherData(props) {
+
+  let weatherIcons = {
+    "01d" : "CLEAR_DAY",
+    "01n" : "CLEAR_NIGHT",
+    "02d" : "PARTLY_CLOUDY_DAY",
+    "02n" : "PARTLY_CLOUDY_NIGHT",
+    "03n" : "CLOUDY",
+    "03d" : "CLOUDY",
+    "04n" : "CLOUDY",
+    "04d" : "CLOUDY",
+    "09n" : "RAIN",
+    "09d" : "RAIN",
+    "10n" : "SLEET",
+    "10d" : "SLEET",
+    "11n" : "SLEET",
+    "11d" : "SLEET",
+    "13n" : "SNOW",
+    "13d" : "SNOW",
+    "50n" : "FOG",
+    "50d" : "FOG",
+  }
+
+
     return (
         <div className="allWeather">
           <form className="form-control pt-3 pb-5">
@@ -19,22 +43,27 @@ export default function WeatherData(props) {
             <div className="col-sm-4 col-md-6">
               <h1 className="cityName">Kingston Upon Hull</h1>
               <span className="dateTime">Sun 14 Mar 2021</span>
-              <p className="mt-2 mb-0">15°C | °F</p>
-              <p>Partly cloudy</p>
+              <p className="mt-2 mb-0">{props.temperature}°C | °F</p>
+              <p>{props.description}</p>
             </div>
             <div className="col-sm-5 col-md-6">
               <ul className="mt-1">
                 <li className="weatherStats mb-1">
-                  Animated icon
+                  <ReactAnimatedWeather
+                    icon={weatherIcons[props.icon]}
+                    color="bisque"
+                    size={100}
+                    animate={true}
+                    />
                 </li>
                 <li className="weatherStats mb-1">
-                  Precipitation: 20%
+                  ☀rise: 06:43 ☀set: 17:02
                 </li>
                 <li className="weatherStats mb-1">
-                  Humidity: 60%
+                  Humidity: {props.humidity}%
                 </li>
                 <li className="weatherStats mb-1">
-                  wind 15 mp/h
+                  wind {props.wind} mp/h
                 </li>
               </ul>
             </div>
@@ -42,24 +71,24 @@ export default function WeatherData(props) {
 
           
             <ul>
-            <div className="row">
-                <li className="fiveDay">
+            <div className="row mt-2">
+                <li className="fiveDay mr-4">
                   Mon<br />19°<br />☀️
                 </li>
 
-                <li className="fiveDay">
+                <li className="fiveDay mx-4">
                   Tue<br />15°<br />⛅️
                 </li>
 
-                <li className="fiveDay">
+                <li className="fiveDay mx-4">
                   Wed<br />27°<br />☀️
                 </li>
 
-                <li className="fiveDay">
+                <li className="fiveDay mx-4">
                   Thu<br />5°<br />☁️
                 </li>
              
-                <li className="fiveDay">
+                <li className="fiveDay mx-4">
                   Fri<br />10°<br />🌧
                 </li>
               </div>

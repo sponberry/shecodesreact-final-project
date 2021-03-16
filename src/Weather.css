@@ -1,6 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand:wght@300;400;700&display=swap');
 
-
 .cityName {
     font-family: 'Pacifico', cursive;
     margin: 0;
@@ -46,6 +45,6 @@ li.weatherStats {
 li.fiveDay {
     display: inline;
     text-align: left;
-    margin-right: 20px;
+
     padding-right: 30px;
 }
