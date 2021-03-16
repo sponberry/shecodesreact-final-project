@@ -1,6 +1,7 @@
 import React from "react";
 import "./Weather.css";
 import ReactAnimatedWeather from "react-animated-weather";
+import FormatDate from "./FormatDate";
 
 export default function WeatherData(props) {
 
@@ -13,12 +14,22 @@ export default function WeatherData(props) {
     "03d" : "CLOUDY",
     "04n" : "CLOUDY",
     "04d" : "CLOUDY",
+    "05n" : "CLOUDY",
+    "05d" : "CLOUDY",
+    "06n" : "CLOUDY",
+    "06d" : "CLOUDY",
+    "07n" : "CLOUDY",
+    "07d" : "CLOUDY",
+    "08n" : "CLOUDY",
+    "08d" : "CLOUDY",
     "09n" : "RAIN",
     "09d" : "RAIN",
     "10n" : "SLEET",
     "10d" : "SLEET",
     "11n" : "SLEET",
     "11d" : "SLEET",
+    "12n" : "SLEET",
+    "12d" : "SLEET",
     "13n" : "SNOW",
     "13d" : "SNOW",
     "50n" : "FOG",
@@ -42,7 +53,7 @@ export default function WeatherData(props) {
           <div className="row ml-2">
             <div className="col-sm-4 col-md-6">
               <h1 className="cityName">Kingston Upon Hull</h1>
-              <span className="dateTime">Sun 14 Mar 2021</span>
+              <span className="dateTime"><FormatDate formatType="date" dateObject={props.date} /></span>
               <p className="mt-2 mb-0">{props.temperature}°C | °F</p>
               <p>{props.description}</p>
             </div>
@@ -57,7 +68,11 @@ export default function WeatherData(props) {
                     />
                 </li>
                 <li className="weatherStats mb-1">
-                  ☀rise: 06:43 ☀set: 17:02
+                  ☀rise: <FormatDate 
+                  formatType="time"
+                  dateObject={props.sunrise} /> ☀set: <FormatDate 
+                  formatType="time"
+                  dateObject={props.sunset} />
                 </li>
                 <li className="weatherStats mb-1">
                   Humidity: {props.humidity}%
