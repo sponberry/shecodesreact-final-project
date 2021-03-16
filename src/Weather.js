@@ -4,15 +4,13 @@ import "./Weather.css";
 export default function Weather () {
     return (
         <div className="allWeather">
-          <form className="form-control">
+          <form className="form-control pt-3 pb-5">
             <div className="row">
-              <div className="col-md-6">
+              <div className="col-md-6 me-5">
                 <input type="search" placeholder="Enter a city..." />
               </div>
-              <div className="col-sm-6 col-md-2">
+              <div className="col-md-6 ms-5">
                 <input type="submit" value="Search" className="btn btn-light" />
-              </div>
-              <div className="col-sm-6 col-md-4">
                 <input type="button" value="Current Location" className="btn btn-dark" />
               </div>
             </div>
@@ -41,31 +39,31 @@ export default function Weather () {
           
             <ul>
             <div className="row">
-              <div className="col-sm-1 col-md-2">
+              {/* <div className="col-sm-1 col-md-2"> */}
                 <li className="fiveDay">
                   Mon<br />19°<br />☀️
                 </li>
-              </div>
-              <div className="col-sm-1 col-md-2">
+              {/* </div>
+              <div className="col-sm-1 col-md-2"> */}
                 <li className="fiveDay">
                   Tue<br />15°<br />⛅️
                 </li>
-              </div>
-              <div className="col-sm-1 col-md-2">
+              {/* </div>
+              <div className="col-sm-1 col-md-2"> */}
                 <li className="fiveDay">
                   Wed<br />27°<br />☀️
                 </li>
-              </div>
-              <div className="col-sm-1 col-md-2">
+              {/* </div>
+              <div className="col-sm-1 col-md-2"> */}
                 <li className="fiveDay">
                   Thu<br />5°<br />☁️
                 </li>
-              </div>
-              <div className="col-sm-1 col-md-2">
+              {/* </div>
+              <div className="col-sm-1 col-md-2"> */}
                 <li className="fiveDay">
                   Fri<br />10°<br />🌧
                 </li>
-              </div>
+              {/* </div> */}
               </div>
             </ul>
           

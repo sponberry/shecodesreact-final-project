@@ -10,15 +10,20 @@ p {
 }
 
 form {
-    margin: 10px 0px 40px;
-    height: max-content;
-    text-align: left;
     border: none !important;
     background-color: rgba(14, 14, 14, 0.3) !important;
+    height: max-content;
+    margin: 10px 0px 40px;
+    text-align: left;
 }
 
 input[type="search"] {
-    width: 300px;
+    margin-bottom: 15px;
+    width: 280px;
+}
+
+.btn {
+    margin: -5px 10px;
 }
 
 ul {
@@ -28,4 +33,6 @@ ul {
 li.fiveDay {
     display: inline;
     text-align: left;
+    margin-right: 20px;
+    padding-right: 30px;
 }
