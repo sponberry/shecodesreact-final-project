@@ -5,18 +5,20 @@ import './App.css';
 function App() {
   return (
     <div className="App">
-      <div className="container">
+      <div className="container bg-dark">
         <Weather />
-
+      </div>
+      <div className="container footer-container">
         <footer>
           Coded by Abi 👩🏻‍💻 | <a 
           href="https://github.com/sponberry/shecodesreact-final-project"
           target="_blank"
-          link="noreferrer">
+          rel="noreferrer">
             on GitHub
           </a>
         </footer>
-        </div>
+      </div>
+      
     </div>
   );
 }

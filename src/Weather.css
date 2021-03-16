@@ -1,9 +1,31 @@
 @import url('https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand:wght@300;400;700&display=swap');
 
+
 .cityName {
     font-family: 'Pacifico', cursive;
 }
 
 p {
     font-family: 'Quicksand', 'Trebuchet MS', sans-serif;
+}
+
+form {
+    margin: 10px 0px 40px;
+    height: max-content;
+    text-align: left;
+    border: none !important;
+    background-color: rgba(14, 14, 14, 0.3) !important;
+}
+
+input[type="search"] {
+    width: 300px;
+}
+
+ul {
+    list-style: none;
+}
+
+li.fiveDay {
+    display: inline;
+    text-align: left;
 }
