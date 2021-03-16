@@ -3,6 +3,12 @@
 
 .cityName {
     font-family: 'Pacifico', cursive;
+    margin: 0;
+}
+
+.dateTime {
+    font-weight: 200;
+    font-size: smaller;
 }
 
 p {
@@ -27,7 +33,14 @@ input[type="search"] {
 }
 
 ul {
-    list-style: none;
+    list-style-type: none;
+    text-indent: none;
+    padding: none !important;
+}
+
+li.weatherStats {
+    text-align: left;
+    margin-left: -30px;
 }
 
 li.fiveDay {
