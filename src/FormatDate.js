@@ -2,13 +2,13 @@ import React from "react";
 
 export default function FormatDate(props) {
     let weekDays = [
+        "Sunday",
         "Monday",
         "Tuesday",
         "Wednesday",
         "Thursday",
         "Friday",
         "Saturday",
-        "Sunday"
     ];
     let months = [
         "January",

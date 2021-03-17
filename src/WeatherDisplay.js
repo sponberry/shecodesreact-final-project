@@ -3,7 +3,7 @@ import "./Weather.css";
 import ReactAnimatedWeather from "react-animated-weather";
 import FormatDate from "./FormatDate";
 
-export default function WeatherData(props) {
+export default function WeatherDisplay(props) {
 
   let weatherIcons = {
     "01d" : "CLEAR_DAY",
@@ -39,29 +39,19 @@ export default function WeatherData(props) {
 
     return (
         <div className="allWeather">
-          <form className="form-control pt-3 pb-5">
-            <div className="row">
-              <div className="col-md-6 me-5">
-                <input type="search" placeholder="Enter a city..." />
-              </div>
-              <div className="col-md-6 ms-5 mb-4">
-                <input type="submit" value="Search" className="btn btn-light" />
-                <input type="button" value="Current Location" className="btn btn-dark" />
-              </div>
-            </div>
-          </form>
+          
           <div className="row ml-2">
             <div className="col-sm-4 col-md-6">
-              <h1 className="cityName">Kingston Upon Hull</h1>
-              <span className="dateTime"><FormatDate formatType="date" dateObject={props.date} /></span>
-              <p className="mt-2 mb-0">{props.temperature}°C | °F</p>
-              <p>{props.description}</p>
+              <h1 className="cityName">{props.data.city}</h1>
+              <span className="dateTime"><FormatDate formatType="date" dateObject={props.data.date} /></span>
+              <p className="mt-2 mb-0">{props.data.temperature}°C | °F</p>
+              <p>{props.data.description}</p>
             </div>
             <div className="col-sm-5 col-md-6">
               <ul className="mt-1">
                 <li className="weatherStats mb-1">
                   <ReactAnimatedWeather
-                    icon={weatherIcons[props.icon]}
+                    icon={weatherIcons[props.data.icon]}
                     color="bisque"
                     size={100}
                     animate={true}
@@ -70,45 +60,20 @@ export default function WeatherData(props) {
                 <li className="weatherStats mb-1">
                   ☀rise: <FormatDate 
                   formatType="time"
-                  dateObject={props.sunrise} /> ☀set: <FormatDate 
+                  dateObject={props.data.sunrise} /> ☀set: <FormatDate 
                   formatType="time"
-                  dateObject={props.sunset} />
+                  dateObject={props.data.sunset} />
                 </li>
                 <li className="weatherStats mb-1">
-                  Humidity: {props.humidity}%
+                  Humidity: {props.data.humidity}%
                 </li>
                 <li className="weatherStats mb-1">
-                  wind {props.wind} mp/h
+                  wind {props.data.wind} mp/h
                 </li>
               </ul>
             </div>
           </div>
-
-          
-            <ul>
-            <div className="row mt-2">
-                <li className="fiveDay mr-4">
-                  Mon<br />19°<br />☀️
-                </li>
-
-                <li className="fiveDay mx-4">
-                  Tue<br />15°<br />⛅️
-                </li>
-
-                <li className="fiveDay mx-4">
-                  Wed<br />27°<br />☀️
-                </li>
-
-                <li className="fiveDay mx-4">
-                  Thu<br />5°<br />☁️
-                </li>
-             
-                <li className="fiveDay mx-4">
-                  Fri<br />10°<br />🌧
-                </li>
-              </div>
-            </ul>
-          
+      
         </div>
     )
 }
