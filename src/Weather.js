@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./Weather.css";
 import WeatherDisplay from "./WeatherDisplay";
@@ -11,6 +11,7 @@ export default function Weather (props) {
   let [weatherData, setWeatherData] = useState({ready:false});
   let [fiveDayWeatherData, setFiveDayWeatherData] = useState([]);
   let [city, setCity] = useState(props.defaultCity);
+  let [unit, setUnit] = useState("metric")
 
   function getData(response) {
     setWeatherData({
@@ -50,11 +51,11 @@ export default function Weather (props) {
     let apiKey = "d022a7cace86a431e5ba6e5fd2caf5df";
 
     // five day forecast
-    let apiForecastUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=metric&appid=${apiKey}`;
+    let apiForecastUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=${unit}&appid=${apiKey}`;
     axios.get(apiForecastUrl).then(logData)
 
     // todays forecast
-    let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${apiKey}`;
+    let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=${unit}&appid=${apiKey}`;
     setTimeout(() => {  
       axios.get(apiUrl).then(getData); 
     }, 500);
@@ -70,6 +71,11 @@ export default function Weather (props) {
     setCity(event.target.value)
   }
 
+  // runs a search when unit is changed via callback in child component
+  useEffect(() => {
+    search();}, [unit]
+  )
+
   if (weatherData.ready) {
     return (
       <div className="weatherSearch">
@@ -84,7 +90,12 @@ export default function Weather (props) {
             </div>
           </div>
         </form>
-        <WeatherDisplay data={weatherData}/>
+        <WeatherDisplay 
+        data={weatherData} 
+        tempUnit={(value) => {
+          setUnit(value);
+        }}
+        />
         <FiveDay data={fiveDayWeatherData}/>
       </div>
     )
