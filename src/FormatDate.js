@@ -41,9 +41,13 @@ export default function FormatDate(props) {
     if (props.formatType === "date") {
         return (
             <div>{day} {date} {month} {year}</div>
-       )} else {
+       )} else if (props.formatType === "time") {
            return (
                <span>{hours}:{minutes}</span>
+           )
+       } else {
+           return (
+               <span>{day.slice(0, 3)}</span>
            )
        }
 }

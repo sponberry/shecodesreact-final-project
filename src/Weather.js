@@ -8,8 +8,9 @@ import Loader from "react-loader-spinner";
 
 
 export default function Weather (props) {
-  let [weatherData, setWeatherData] = useState({ready:false})
-  let [city, setCity] = useState(props.defaultCity)
+  let [weatherData, setWeatherData] = useState({ready:false});
+  let [fiveDayWeatherData, setFiveDayWeatherData] = useState([]);
+  let [city, setCity] = useState(props.defaultCity);
 
   function getData(response) {
     setWeatherData({
@@ -28,25 +29,36 @@ export default function Weather (props) {
 
   function logData(response) {
     let hourlyForecasts = response.data.list;
+    let collectWeatherData = []
     hourlyForecasts.forEach( forecast => {
-      let thing = new Date(forecast.dt * 1000);
-      console.log(thing);
+      let hourStep = new Date(forecast.dt * 1000);
+      if (hourStep.getHours() === 12) {
+        collectWeatherData.push(
+          [
+            hourStep, 
+            Math.round(forecast.main.temp),
+            `http://openweathermap.org/img/wn/${forecast.weather[0].icon}@2x.png`,
+            forecast.weather[0].description,
+          ]
+        );
+      }
     });
-    // forEach loop on .dt value, convert to a Date object
-
-    // let hourData = new Date(response.data.list[39].dt * 1000)
-    // console.log(hourData.getDate())
+    setFiveDayWeatherData(collectWeatherData);
   }
 
   function search() {
-    // todays forecast
     let apiKey = "d022a7cace86a431e5ba6e5fd2caf5df";
-    let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${apiKey}`;
-    axios.get(apiUrl).then(getData)
 
     // five day forecast
     let apiForecastUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=metric&appid=${apiKey}`;
     axios.get(apiForecastUrl).then(logData)
+
+    // todays forecast
+    let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${apiKey}`;
+    setTimeout(() => {  
+      axios.get(apiUrl).then(getData); 
+    }, 500);
+    
   }
 
   function handleSubmit(event) {
@@ -73,7 +85,7 @@ export default function Weather (props) {
           </div>
         </form>
         <WeatherDisplay data={weatherData}/>
-        <FiveDay />
+        <FiveDay data={fiveDayWeatherData}/>
       </div>
     )
   } else {
@@ -85,7 +97,7 @@ export default function Weather (props) {
       color="#00BFFF"
       height={200}
       width={200}
-      timeout={3000} //3 secs
+      timeout={3000}
     />
     )
   }
