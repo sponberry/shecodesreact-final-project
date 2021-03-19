@@ -21,7 +21,7 @@ export default function Weather (props) {
       ready: true,
       temperature: Math.round(response.data.main.temp),
       humidity: response.data.main.humidity,
-      wind: response.data.wind.speed,
+      wind: Math.round(response.data.wind.speed),
       description: response.data.weather[0].description,
       icon: response.data.weather[0].icon,
       sunrise: new Date(response.data.sys.sunrise * 1000),
@@ -53,18 +53,23 @@ export default function Weather (props) {
 
   // makes api call for weather now and five day forecast using current city and unit states
   function search() {
-    console.log(city);
-    let apiKey = "d022a7cace86a431e5ba6e5fd2caf5df";
+    console.log(`API call for ${city} x2`);
+    let apiKey = process.env.REACT_APP_WEATHER_API_KEY;
 
-    // five day forecast
-    let apiForecastUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=${unit}&appid=${apiKey}`;
-    axios.get(apiForecastUrl).then(logData)
+  try {
+      // five day forecast
+      let apiForecastUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=${unit}&appid=${apiKey}`;
+      axios.get(apiForecastUrl).then(logData)
 
-    // todays forecast
-    let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=${unit}&appid=${apiKey}`;
-    setTimeout(() => {  
-      axios.get(apiUrl).then(getData); 
-    }, 500);
+      // todays forecast
+      let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=${unit}&appid=${apiKey}`;
+      setTimeout(() => {  
+        axios.get(apiUrl).then(getData); 
+      }, 500);
+    } catch(error) {
+      console.error(error);
+      setCity("Check city name");
+    }
   }
   // // // // // //
 
@@ -75,14 +80,14 @@ export default function Weather (props) {
 
   // these three functions get location data and then send current city to search function
   function updateCurrentLocation(response) {
-    console.log(response.data.address.city);
+    console.log(`Current Location update to ${response.data.address.city}`);
     setCity(response.data.address.city);
     setTimeout(() => {setWeatherData({ready:false})}, 500);
   }
   function getPosition(position) {
     let latitude = position.coords.latitude;
     let longitude = position.coords.longitude;
-    let locApiKey = "pk.0d4784f4e386eaf7f225cd71379a56ae";
+    let locApiKey = process.env.REACT_APP_LOCATION_API_KEY;
     let locApiUrl = `https://eu1.locationiq.com/v1/reverse.php?key=${locApiKey}&lat=${latitude}&lon=${longitude}&format=json`
     axios.get(locApiUrl).then(updateCurrentLocation);
   }
@@ -128,7 +133,7 @@ export default function Weather (props) {
       </div>
     )
   } else {
-    search()
+    setTimeout(() => {search()}, 500);
 
     return (
         <Loader
