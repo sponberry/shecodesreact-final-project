@@ -128,8 +128,8 @@ export default function Weather (props) {
 
   // runs a search when unit is changed via callback in child component
   useEffect(() => {
-    search();}, [unit]
-  )
+  // eslint-disable-next-line
+    search();}, [unit,]);
 
   // checks ready status and returns content accordingly
   if (weatherData.ready) {
