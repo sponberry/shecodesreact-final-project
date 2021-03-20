@@ -13,11 +13,13 @@ export default function Weather (props) {
   let [weatherData, setWeatherData] = useState({ready:false});
   let [fiveDayWeatherData, setFiveDayWeatherData] = useState([]);
   let [city, setCity] = useState(props.defaultCity);
-  let [unit, setUnit] = useState("metric")
+  let [unit, setUnit] = useState("metric");
 
   // creates object with all req data from todays weather, sets ready to true
   function getData(response) {
-    setWeatherData({
+    // console.log(response.status);
+    try {
+      setWeatherData({
       ready: true,
       temperature: Math.round(response.data.main.temp),
       humidity: response.data.main.humidity,
@@ -28,27 +30,35 @@ export default function Weather (props) {
       sunset: new Date(response.data.sys.sunset * 1000),
       date: new Date(response.data.dt * 1000),
       city: response.data.name,
-    })
+    })} catch (error) {
+      setCity("hull");
+      throw error;
+    }
   }
 
   // creates array of lists with req data for 5 day forecast
   function logData(response) {
-    let hourlyForecasts = response.data.list;
-    let collectWeatherData = []
-    hourlyForecasts.forEach( forecast => {
-      let hourStep = new Date(forecast.dt * 1000);
-      if (hourStep.getHours() === 12) {
-        collectWeatherData.push(
-          [
-            hourStep, 
-            Math.round(forecast.main.temp),
-            `http://openweathermap.org/img/wn/${forecast.weather[0].icon}@2x.png`,
-            forecast.weather[0].description,
-          ]
-        );
+    // console.log(response.status);
+    try {
+      let hourlyForecasts = response.data.list;
+      let collectWeatherData = []
+      hourlyForecasts.forEach( forecast => {
+        let hourStep = new Date(forecast.dt * 1000);
+        if (hourStep.getHours() === 12) {
+          collectWeatherData.push(
+            [
+              hourStep, 
+              Math.round(forecast.main.temp),
+              `http://openweathermap.org/img/wn/${forecast.weather[0].icon}@2x.png`,
+              forecast.weather[0].description,
+            ]
+          );
+        }
+      });
+      setFiveDayWeatherData(collectWeatherData);} catch (error) {
+        setCity("hull");
+        throw error;
       }
-    });
-    setFiveDayWeatherData(collectWeatherData);
   }
 
   // makes api call for weather now and five day forecast using current city and unit states
@@ -56,20 +66,33 @@ export default function Weather (props) {
     console.log(`API call for ${city} x2`);
     let apiKey = process.env.REACT_APP_WEATHER_API_KEY;
 
-  try {
-      // five day forecast
-      let apiForecastUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=${unit}&appid=${apiKey}`;
-      axios.get(apiForecastUrl).then(logData)
+    // five day forecast
+    let apiForecastUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=${unit}&appid=${apiKey}`;
+    axios.get(apiForecastUrl)
+    .catch(function (error) {
+      if (error.response === 404) {  
+        alert("City name error: please try again");
+        setCity("Hull");
+        return Promise.reject(error);
+       }
+      console.log('Error', error.message);
+      })
+      .then(logData);
 
-      // todays forecast
-      let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=${unit}&appid=${apiKey}`;
-      setTimeout(() => {  
-        axios.get(apiUrl).then(getData); 
-      }, 500);
-    } catch(error) {
-      console.error(error);
-      setCity("Check city name");
-    }
+    // todays forecast
+    let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=${unit}&appid=${apiKey}`;
+    setTimeout(() => {  
+      axios.get(apiUrl)
+        .catch(function (error) {
+        if (error.response === 404) {  
+          setCity("Hull");
+          return Promise.reject(error);
+         }
+        console.log('Error', error.message);
+        })
+        .then(getData); 
+    }, 500);
+    
   }
   // // // // // //
 
