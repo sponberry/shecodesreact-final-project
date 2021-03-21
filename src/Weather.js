@@ -57,6 +57,7 @@ export default function Weather (props) {
       });
       setFiveDayWeatherData(collectWeatherData);} catch (error) {
         setCity("hull");
+        // alert("City name error: please try again");
         throw error;
       }
   }
@@ -71,7 +72,6 @@ export default function Weather (props) {
     axios.get(apiForecastUrl)
     .catch(function (error) {
       if (error.response === 404) {  
-        alert("City name error: please try again");
         setCity("Hull");
         return Promise.reject(error);
        }
