@@ -17,7 +17,6 @@ export default function Weather (props) {
 
   // creates object with all req data from todays weather, sets ready to true
   function getData(response) {
-    // console.log(response.status);
     try {
       setWeatherData({
       ready: true,
@@ -38,34 +37,28 @@ export default function Weather (props) {
 
   // creates array of lists with req data for 5 day forecast
   function logData(response) {
-    // console.log(response.status);
-    try {
-      let hourlyForecasts = response.data.list;
-      let collectWeatherData = []
-      hourlyForecasts.forEach( forecast => {
-        let hourStep = new Date(forecast.dt * 1000);
-        if (hourStep.getHours() === 12) {
-          collectWeatherData.push(
-            [
-              hourStep, 
-              Math.round(forecast.main.temp),
-              `http://openweathermap.org/img/wn/${forecast.weather[0].icon}@2x.png`,
-              forecast.weather[0].description,
-            ]
-          );
-        }
-      });
-      setFiveDayWeatherData(collectWeatherData);} catch (error) {
-        setCity("hull");
-        // alert("City name error: please try again");
-        throw error;
-      }
-  }
+    let hourlyForecasts = response.data.list;
+    let collectWeatherData = []
+    let milestone = new Date(hourlyForecasts[0].dt * 1000).getHours()
+    hourlyForecasts.forEach( forecast => {
+      let hourStep = new Date(forecast.dt * 1000); 
+      if (hourStep.getHours() === milestone) {
+        collectWeatherData.push(
+          [
+            hourStep, 
+            Math.round(forecast.main.temp),
+            `http://openweathermap.org/img/wn/${forecast.weather[0].icon}@2x.png`,
+            forecast.weather[0].description,
+          ]
+        )};
+      })
+    setFiveDayWeatherData(collectWeatherData);
+    }
 
   // makes api call for weather now and five day forecast using current city and unit states
   function search() {
     console.log(`API call for ${city} x2`);
-    let apiKey = process.env.REACT_APP_WEATHER_API_KEY;
+    let apiKey = "c6f40eefd6c46ade7bc899c197f83910"
 
     // five day forecast
     let apiForecastUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=${unit}&appid=${apiKey}`;
@@ -73,9 +66,9 @@ export default function Weather (props) {
     .catch(function (error) {
       if (error.response === 404) {  
         setCity("Hull");
-        return Promise.reject(error);
-       }
+      }
       console.log('Error', error.message);
+      return Promise.reject(error);
       })
       .then(logData);
 
@@ -86,9 +79,9 @@ export default function Weather (props) {
         .catch(function (error) {
         if (error.response === 404) {  
           setCity("Hull");
-          return Promise.reject(error);
          }
         console.log('Error', error.message);
+        return Promise.reject(error);
         })
         .then(getData); 
     }, 500);
@@ -110,7 +103,7 @@ export default function Weather (props) {
   function getPosition(position) {
     let latitude = position.coords.latitude;
     let longitude = position.coords.longitude;
-    let locApiKey = process.env.REACT_APP_LOCATION_API_KEY;
+    let locApiKey = "pk.0d4784f4e386eaf7f225cd71379a56ae";
     let locApiUrl = `https://eu1.locationiq.com/v1/reverse.php?key=${locApiKey}&lat=${latitude}&lon=${longitude}&format=json`
     axios.get(locApiUrl).then(updateCurrentLocation);
   }
