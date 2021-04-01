@@ -58,7 +58,7 @@ export default function Weather (props) {
   // makes api call for weather now and five day forecast using current city and unit states
   function search() {
     console.log(`API call for ${city} x2`);
-    let apiKey = "c6f40eefd6c46ade7bc899c197f83910"
+    let apiKey = process.env.REACT_APP_WEATHER_API_KEY
 
     // five day forecast
     let apiForecastUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=${unit}&appid=${apiKey}`;
@@ -103,7 +103,7 @@ export default function Weather (props) {
   function getPosition(position) {
     let latitude = position.coords.latitude;
     let longitude = position.coords.longitude;
-    let locApiKey = "pk.0d4784f4e386eaf7f225cd71379a56ae";
+    let locApiKey = process.env.REACT_APP_LOCATION_API_KEY;
     let locApiUrl = `https://eu1.locationiq.com/v1/reverse.php?key=${locApiKey}&lat=${latitude}&lon=${longitude}&format=json`
     axios.get(locApiUrl).then(updateCurrentLocation);
   }
